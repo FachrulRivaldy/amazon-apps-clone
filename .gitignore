@@ -32,6 +32,7 @@
 /build/
 Web/
 windows/
+server/node_modules
 
 doc/api/
 
