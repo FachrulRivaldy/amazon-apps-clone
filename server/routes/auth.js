@@ -1,13 +1,33 @@
 const express = require('express');
-
+const User = require('../models/user');
+const bcryptjs = require('bcryptjs');
 const authRouter = express.Router();
 
-authRouter.post('/api/signup', (req, res) => {
-    const {name, email, password} = req.body;
-    // GET DATA FROM CLIENT
-    // POST DATA IN DATABASE
-    // RETURN DATA TO USER
-});
+authRouter.post('/api/signup', async (req, res) => {
+        try {
+            const {name, email, password} = req.body;
 
+            // GET DATA FROM CLIENT
+            const existingUser = await User.findOne({ email });
+            if (existingUser) {
+                return res.status(400).json({msg: 'User with same email has already exist!'});
+            };
+
+            const hashedPassword = await bcryptjs.hash(password, 8);
+            
+            let user = new User({
+                email,
+                password: hashedPassword,
+                name,
+            })
+            user = await user.save();
+            res.json(user);
+            // POST DATA IN DATABASE
+            // RETURN DATA TO USER
+        } catch (e) {
+            res.status(500).json({error: e.message});
+        }
+    
+});
 
 module.exports = authRouter;

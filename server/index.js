@@ -8,6 +8,7 @@ const app = express();
 const DB = "mongodb+srv://fachrul:Arul2009@cluster0.5nk8kej.mongodb.net/?retryWrites=true&w=majority";
 
 // middleware
+app.use(express.json());
 app.use(authRouter);
 
 mongoose.connect(DB).then(() => {
