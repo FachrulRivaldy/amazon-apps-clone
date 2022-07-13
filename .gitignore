@@ -33,6 +33,7 @@
 Web/
 windows/
 server/node_modules
+lib/constants/global_variables.dart
 
 doc/api/
 
